@@ -1,0 +1,27 @@
+{
+  "name": "cse340-course-repo",
+  "version": "1.0.0",
+  "description": "backend repo for school",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chilltomato/cse340-course-repo.git"
+  },
+  "author": "zach",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chilltomato/cse340-course-repo/issues"
+  },
+  "homepage": "https://github.com/chilltomato/cse340-course-repo#readme",
+  "dependencies": {
+    "ejs": "^7.0.2",
+    "express": "^5.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
