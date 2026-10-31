@@ -8,6 +8,7 @@
     --primary-color: #174a70;
     --primary-dark: #1d0c38;
     --accent-color: #e86b3a;
+    --link-color: #e3b3ff;
     --background-color: rgb(173, 230, 211);
     --surface-color: rgb(184, 130, 105);
 }
@@ -25,8 +26,8 @@ nav ul {
     gap: 12px;
 }
 
-nav a{
-    color: var(--accent-color);
+a{
+    color: var(--link-color);
 }
 
 nav a:hover,
