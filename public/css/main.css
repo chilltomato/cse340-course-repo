@@ -69,6 +69,7 @@ h1 {
 footer {
     margin-top: auto;
     background-color: var(--primary-dark);
+    color: var(--accent-color);
     text-align: center;
 }
 
