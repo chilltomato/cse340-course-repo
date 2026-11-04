@@ -1,2 +1,2 @@
 # cse340-course-repo
-backend repo for school
+frontend repo for my backend programing class
