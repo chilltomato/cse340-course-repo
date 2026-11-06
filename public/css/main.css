@@ -73,6 +73,14 @@ footer {
     text-align: center;
 }
 
+.dateandplace {
+    display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10%;
+}
+
+
+
 @media (max-width: 600px) {
     nav ul {
         justify-content: center;
