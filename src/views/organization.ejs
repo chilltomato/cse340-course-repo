@@ -10,7 +10,10 @@
     <h3>Service Projects</h3>
     <ul>
         <% projects.forEach(project => { %>
-            <li><a href="/project/<%= project.project_id %>"><%= project.title %></a></li>
+            <li><a href="/project/<%= project.project_id %>">
+                <%= project.title %>:
+                <%=  new Date(project.thedate).toISOString().split('T')[0]   %>
+            </a></li>
         <% }) %>
     </ul>
 </main>

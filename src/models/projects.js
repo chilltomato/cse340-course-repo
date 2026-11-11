@@ -68,8 +68,6 @@ const getProjectsByOrganizationId = async (organizationId) => {
         ORDER BY p.thedate;
       `;
       const queryParams = [organizationId];
-      console.log('query:')
-        console.log(query);
 
       const result = await db.query(query, queryParams);
 
