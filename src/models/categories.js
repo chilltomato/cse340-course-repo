@@ -3,43 +3,54 @@ import db from './db.js'
 const getAllCategories = async() => {
   
     const categoryquery = `
-        SELECT category_id, category_name
-      FROM public.category;
+        SELECT 
+        a.category_id, 
+        a.category_name,
+        p.project_id,
+        p.title,
+        p.description, 
+        p.place, 
+        p.thedate
+        FROM public.category a
+        LEFT JOIN public.project_category ap
+        ON a.category_id = ap.category_id
+        LEFT JOIN public.projects p
+        ON ap.project_id = p.project_id
+        ORDER BY p.project_id;
+
     `;
 
     const categoryresult = await db.query(categoryquery);
 
-    const projectquery = `
-        SELECT project_id, title, description, place, thedate
-      FROM public.projects;
-    `;
+   const categories = categoryresult.rows.reduce((acc, row) => {
 
-    const projectsresult = await db.query(projectquery);
-
-    const projectcategoryquery = `
-        SELECT project_id, category_id
-      FROM public.project_category;
-    `;
-
-    const projectcategoryresult = await db.query(projectcategoryquery);
-
-
-    const categories = categoryresult.rows.map( category => { 
-        const projectcategorys = projectcategoryresult.rows.filter(
-            relationship => relationship.category_id == category.category_id
+        let category = acc.find(
+            category => category.category_id === row.category_id
         );
 
-        const detailedprojectcategorys = projectcategorys.map(relationship => {
-            return projectsresult.rows.find(
-                projects => projects.project_id === relationship.project_id
-            );
-        }).filter(Boolean);
+        if (!category) {
+            category = {
+                category_id: row.category_id,
+                category_name: row.category_name,
+                projects: []
+            };
 
-        return {
-            ...category,
-            projects: detailedprojectcategorys
+            acc.push(category);
         }
-    })
+
+        if (row.project_id !== null) {
+            category.projects.push({
+                project_id: row.project_id,
+                title: row.title,
+                description: row.description,
+                place: row.place,
+                thedate: row.thedate
+            });
+        }
+
+        return acc;
+
+    }, []);
 
     return categories;
 }

@@ -7,7 +7,7 @@
             <% projects.forEach(project => { %>
                 <li>
                     <h3> <%= project.title %></h3>
-                    <p><small> <%= project.organizations.map(org => org.name).join(', ') %></small></p>
+                                    <%= project.organizations.map(org => org.name).join(', ') %>
                     <strong> <%= project.description %></strong>
                     <div class="dateandplace">
                         <p><%= project.place %></p>
