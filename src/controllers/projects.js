@@ -1,5 +1,5 @@
 import { getAllProjects, getUpcomingProjects, getProjectDetails } from '../models/projects.js';
-
+import{getcategorysByProjectId} from '../models/categories.js'
 
 const showProjectsPage  = async (req, res) => {
     const projects = await getUpcomingProjects(5);
@@ -11,7 +11,7 @@ const showProjectDetailspage = async (req, res) => {
     const title = 'Project Details';
     const projectId = req.params.id;
     const projectDetails = await getProjectDetails(projectId);
-    console.log(projectDetails)
-    res.render('project', {title, projectDetails});
+    const categories = await getcategorysByProjectId(projectId);
+    res.render('project', {title, projectDetails, categories});
 }
 export {showProjectsPage, showProjectDetailspage}

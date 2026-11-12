@@ -1,0 +1,13 @@
+<%- include('partials/header') %>
+<main>
+<h1><%= categorydetails.category_name %></h1>
+<h2>projects assosiated with this category</h2>
+<ul>
+        <% projects.forEach(project => { %>
+            <li><a href="/project/<%= project.project_id %>">
+                <%= project.title %>:
+                <%=  new Date(project.thedate).toISOString().split('T')[0]   %>
+            </a></li>
+        <% }) %>
+    </ul>
+</main>
