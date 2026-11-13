@@ -5,7 +5,10 @@
     <h2><%= projectDetails.title %></h2>
 
     <p>Description: <%= projectDetails.description %></p>
-
+    <div class="dateandplace">
+                        <p><%= projectDetails.place %></p>
+                        <p><%= new Date(projectDetails.thedate).toISOString().split('T')[0]  %></p>
+                    </div>
     <h3>Organizations Involved</h3>
     <ul>
         <% projectDetails.organizations.forEach(organization => { %>
