@@ -205,4 +205,68 @@ const getProjectsByCategoryId = async (categoryId) => {
       return result.rows;
 };
 
-export { getAllProjects, getProjectsByOrganizationId, getUpcomingProjects, getProjectDetails, getProjectsByCategoryId};
+const createProject = async (title, description, location, date, organizationIds) => {
+    const query = `
+        WITH new_project AS (
+            INSERT INTO public.projects (title, description, place, thedate)
+            VALUES ($1, $2, $3, $4)
+            RETURNING project_id
+        )
+        INSERT INTO public.project_orgaizations (project_id, organization_id)
+        SELECT project_id, unnest($5::int[])
+        FROM new_project
+        RETURNING project_id;
+    `;
+
+    const queryParams = [
+        title,
+        description,
+        location,
+        date,
+        organizationIds
+    ];
+
+    const result = await db.query(query, queryParams);
+
+    if (result.rows.length === 0) {
+        throw new Error('Failed to create project');
+    }
+
+    const projectId = result.rows[0].project_id;
+
+    if (process.env.ENABLE_SQL_LOGGING === 'true') {
+        console.log('Created new project with ID:', projectId);
+    }
+
+    return projectId;
+};
+
+const assignCategoryToProject = async(categoryId, projectId) => {
+    const query = `
+        INSERT INTO project_category (category_id, project_id)
+        VALUES ($1, $2);
+    `;
+
+    await db.query(query, [categoryId, projectId]);
+}
+
+const updateCategoryAssignments = async(projectId, categoryIds) => {
+    // First, remove existing category assignments for the project
+    const deleteQuery = `
+        DELETE FROM project_category
+        WHERE project_id = $1;
+    `;
+    await db.query(deleteQuery, [projectId]);
+
+    // Next, add the new category assignments
+    for (const categoryId of categoryIds) {
+        await assignCategoryToProject(categoryId, projectId);
+    }
+}
+export { getAllProjects, 
+    getProjectsByOrganizationId, 
+    getUpcomingProjects, 
+    getProjectDetails, 
+    getProjectsByCategoryId, 
+    createProject, 
+    updateCategoryAssignments};

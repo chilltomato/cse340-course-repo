@@ -86,4 +86,4 @@ const getcategorysByProjectId = async (ProjectId) => {
 
       return result.rows;
 };
-export {getAllCategories, getCategoryDetails, getcategorysByProjectId}  
+export {getAllCategories, getCategoryDetails, getcategorysByProjectId,}  
