@@ -263,10 +263,57 @@ const updateCategoryAssignments = async(projectId, categoryIds) => {
         await assignCategoryToProject(categoryId, projectId);
     }
 }
+
+const updateProject = async(projectId, title, description, location, date, organizationIds) => {
+      const query = `
+        UPDATE public.projects (title, description, place, thedate)
+        set title = $1, description = $2, place = $3, date
+        where project_id = $4
+        RETURNING project_id
+    `;
+
+    const queryParams = [
+        title,
+        description,
+        location,
+        date,
+        projectId
+    ];
+
+
+    const result = await db.query(query, queryParams);
+
+    if (result.rows.length === 0) {
+        throw new Error('project not found');
+    }
+
+    if (process.env.ENABLE_SQL_LOGGING === 'true') {
+        console.log('Updated organization with ID:', projectid);
+    }
+
+    const deleteQuery = `
+        DELETE FROM project_orgaizations
+        WHERE project_id = $1;
+    `;
+    await db.query(deleteQuery, [projectId]);
+
+    for (const organizationId of organizationIds) {
+        const organizationquery = `
+            INSERT INTO public.project_orgaizations (project_id, organization_id)
+            VALUES ($1, $2);
+        `;
+    await db.query(organizationquery, [projectId, organizationId]);
+    }
+
+
+    return result.rows[0].projectid;
+}
+
 export { getAllProjects, 
     getProjectsByOrganizationId, 
     getUpcomingProjects, 
     getProjectDetails, 
     getProjectsByCategoryId, 
     createProject, 
-    updateCategoryAssignments};
+    updateCategoryAssignments,
+    updateProject};

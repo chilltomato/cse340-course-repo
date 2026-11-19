@@ -1,4 +1,8 @@
-import { getAllProjects, getUpcomingProjects, getProjectDetails, createProject } from '../models/projects.js';
+import { getAllProjects, 
+    getUpcomingProjects, 
+    getProjectDetails, 
+    createProject, 
+    updateProject } from '../models/projects.js';
 import {getAllOrganizations} from '../models/organizations.js'
 import{getcategorysByProjectId} from '../models/categories.js'
 import { body, validationResult } from 'express-validator';
@@ -84,5 +88,44 @@ body('organizationIds.*')
     .isInt().withMessage('Organization IDs must be valid integers')
 ];
 
+const showEditProjectForm = async (req, res) => {
+    const title = 'Edit Project';
+    const projectId = req.params.id;
+    const projectDetails = await getProjectDetails(projectId);
+    const organizations = await getAllOrganizations();
 
-export {showProjectsPage, showProjectDetailspage, showNewProjectForm, processNewProjectForm, projectValidation}
+    res.render('edit-project', {title, projectDetails, organizations});
+}
+
+const processEditProjectForm = async (req, res) => {
+    const projectId = req.params.id;
+        const results = validationResult(req);
+    if (!results.isEmpty()) {
+    // Validation failed - loop through errors
+    results.array().forEach((error) => {
+        req.flash('error', error.msg);
+    });
+
+    // Redirect back to the edit organization form
+    return res.redirect('/edit-project/' + req.params.id);
+    }
+
+    const { title, description, location, date, organizationIds } = req.body;
+
+    await updateProject(projectId, title, description, location, date, organizationIds);
+    
+    // Set a success flash message
+    req.flash('success', 'Organization updated successfully!');
+
+    res.redirect(`/project/${projectId}`);
+
+
+}
+
+export {showProjectsPage, 
+    showProjectDetailspage, 
+    showNewProjectForm, 
+    processNewProjectForm, 
+    projectValidation,
+    showEditProjectForm,
+    processEditProjectForm}

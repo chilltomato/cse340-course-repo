@@ -18,7 +18,7 @@ const showCategoriesdetailPage   = async (req, res) => {
 }
 
 const showAssignCategoriesForm = async (req, res) => {
-    const projectId = req.params.projectId;
+    const projectId = req.params.id;
 
     const projectDetails = await getProjectDetails(projectId);
     const categories = await getAllCategories();
@@ -30,7 +30,7 @@ const showAssignCategoriesForm = async (req, res) => {
 };
 
 const processAssignCategoriesForm = async (req, res) => {
-    const projectId = req.params.projectId;
+    const projectId = req.params.id;
     const selectedCategoryIds = req.body.categoryIds || [];
     
     // Ensure selectedCategoryIds is an array
