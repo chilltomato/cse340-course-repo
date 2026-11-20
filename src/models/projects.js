@@ -266,10 +266,13 @@ const updateCategoryAssignments = async(projectId, categoryIds) => {
 
 const updateProject = async(projectId, title, description, location, date, organizationIds) => {
       const query = `
-        UPDATE public.projects (title, description, place, thedate)
-        set title = $1, description = $2, place = $3, date
-        where project_id = $4
-        RETURNING project_id
+        UPDATE public.projects
+        SET title = $1,
+            description = $2,
+            place = $3,
+            thedate = $4
+        WHERE project_id = $5
+        RETURNING project_id;
     `;
 
     const queryParams = [
@@ -280,7 +283,6 @@ const updateProject = async(projectId, title, description, location, date, organ
         projectId
     ];
 
-
     const result = await db.query(query, queryParams);
 
     if (result.rows.length === 0) {
@@ -288,7 +290,7 @@ const updateProject = async(projectId, title, description, location, date, organ
     }
 
     if (process.env.ENABLE_SQL_LOGGING === 'true') {
-        console.log('Updated organization with ID:', projectid);
+        console.log('Updated Project with ID:', projectId);
     }
 
     const deleteQuery = `
