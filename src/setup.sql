@@ -1,6 +1,6 @@
 create table organization (
     organization_id SERIAL PRIMARY KEY,
-    name  VARCHAR(150) NOT NULL
+    name  VARCHAR(150) NOT NULL,
     description TEXT NOT NULL,
     contact_email VARCHAR(255) NOT NULL,
     logo_filename VARCHAR(255) NOT NULL
@@ -24,7 +24,7 @@ CREATE TABLE project_orgaizations (
  PRIMARY KEY (project_id, organization_id),
  FOREIGN KEY (project_id) REFERENCES projects (project_id),
  FOREIGN KEY (organization_id) REFERENCES organization (organization_id)
-)
+);
 INSERT INTO Projects (title, description, place, thedate)
 VALUES
 ('Outdoor Classroom Building', 'built an outdoor class, including benches and shade. perfect for learning with nature', 'South Lakeland, FL', '2027-04-24'),
@@ -41,7 +41,7 @@ VALUES
 ('Animal Shelter Assistance','helped local animal shelters with animal care and cleaning', 'Lakeland, FL', '2027-05-22' ),
 ('Hurricane Cleanup','cleaned up the streets after a category 3 hurricane', 'Brandon, FL', '2028-09-22'),
 ('Graffiti  Removal', 'removed problematic graffiti from areas near a storefront', 'West Valley, Utah', '2029-03-27'),
-('Fundrassing Assistance', 'assisted with a school fundrasser, raising money for a better education', 'Marshall, Alaska', '2027-05-22')
+('Fundrassing Assistance', 'assisted with a school fundrasser, raising money for a better education', 'Marshall, Alaska', '2027-05-22');
 INSERT INTO project_orgaizations (project_id, organization_id)
 VALUES
 (1, 1),
@@ -59,10 +59,10 @@ VALUES
 (13, 3),
 (13, 1),
 (14, 3),
-(15, 3)
+(15, 3);
 CREATE TABLE category  (
 	category_id SERIAL PRIMARY KEY,
-	category_name text NOT NULL,
+	category_name text NOT NULL
 );
 
 CREATE TABLE project_category (
@@ -71,13 +71,13 @@ CREATE TABLE project_category (
  PRIMARY KEY (project_id, category_id),
  FOREIGN KEY (project_id) REFERENCES projects (project_id),
  FOREIGN KEY (category_id) REFERENCES category (category_id)
-)
+);
 INSERT INTO category (category_name)
 VALUES
 ('Refurbishment'),
 ('Build'),
 ('Education'),
-('Charity')
+('Charity');
 INSERT INTO project_category(project_id, category_id)
 VALUES
 (1, 2),
@@ -98,4 +98,4 @@ VALUES
 (13, 1),
 (13, 4),
 (14, 1),
-(15, 4)
+(15, 4);
