@@ -34,7 +34,8 @@ import { showUserRegistrationForm,
     processLoginForm, 
     processLogout,
     requireLogin,
-showDashboard } from './controllers/users.js'
+showDashboard,
+requireRole } from './controllers/users.js'
 import { testErrorPage } from './controllers/errors.js';
 
 
@@ -51,24 +52,24 @@ router.get('/logout', processLogout);
 
 router.get('/dashboard', requireLogin, showDashboard);
 
-router.get('/new-organization', showNewOrganizationForm)
-router.get('/edit-organization/:id', showEditOrganizationForm);
-router.get('/new-project', showNewProjectForm);
-router.get('/assign-categories/:id', showAssignCategoriesForm);
-router.get('/editproject/:id', showEditProjectForm);
-router.get('/new-category', showNewCategoryForm);
-router.get('/edit-category/:id', showEditCategoryForm);
-router.get('/register', showUserRegistrationForm);
+router.get('/new-organization', requireRole('admin'), showNewOrganizationForm)
+router.get('/edit-organization/:id', requireRole('admin'), showEditOrganizationForm);
+router.get('/new-project', requireRole('admin'), showNewProjectForm);
+router.get('/assign-categories/:id', requireRole('admin'), showAssignCategoriesForm);
+router.get('/editproject/:id', requireRole('admin'), showEditProjectForm);
+router.get('/new-category', requireRole('admin'), showNewCategoryForm);
+router.get('/edit-category/:id', requireRole('admin'), showEditCategoryForm);
+router.get('/register',showUserRegistrationForm);
 router.get('/login', showLoginForm);
 
 // Routes to handle form submission
-router.post('/new-organization', organizationValidation, processNewOrganizationForm);
-router.post('/edit-organization/:id', organizationValidation, processEditOrganizationForm);
-router.post('/new-project', projectValidation, processNewProjectForm);
-router.post('/assign-categories/:id', processAssignCategoriesForm);
-router.post('/editproject/:id', projectValidation, processEditProjectForm);
-router.post('/new-category', categoryValidation, processNewCategoryForm);
-router.post('/edit-category/:id', categoryValidation, processEditCategoryForm);
+router.post('/new-organization', requireRole('admin'), organizationValidation, processNewOrganizationForm);
+router.post('/edit-organization/:id', requireRole('admin'), organizationValidation, processEditOrganizationForm);
+router.post('/new-project', requireRole('admin'), projectValidation, processNewProjectForm);
+router.post('/assign-categories/:id', requireRole('admin'), processAssignCategoriesForm);
+router.post('/editproject/:id', requireRole('admin'), projectValidation, processEditProjectForm);
+router.post('/new-category', requireRole('admin'), categoryValidation, processNewCategoryForm);
+router.post('/edit-category/:id', requireRole('admin'), categoryValidation, processEditCategoryForm);
 router.post('/register', processUserRegistrationForm);
 router.post('/login', processLoginForm);
 

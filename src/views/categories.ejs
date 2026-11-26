@@ -7,7 +7,10 @@
         <li><a href="/category/<%= category.category_id %>"><%= category.category_name %></a></li>
         <% }); %>
     </ul>
+    <% if (user && user.role_name === 'admin') { %>
 <a href="/new-category">add a new category</a>
+    <% } %>
+
     </main>
 <%- include('partials/footer') %>
 

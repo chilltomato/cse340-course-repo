@@ -76,6 +76,7 @@ const requireLogin = (req, res, next) => {
 
 const showDashboard = (req, res) => {
     const user = req.session.user;
+    console.log(user)
     res.render('dashboard', { 
         title: 'Dashboard',
         name: user.name,
@@ -83,10 +84,31 @@ const showDashboard = (req, res) => {
     });
 };
 
+
+const requireRole = (role) => {
+    return (req, res, next) => {
+        //are you logged in
+        if (!req.session || !req.session.user) {
+            req.flash('error','please log in before visiting that page');
+            return res.redirect('/login')
+        };
+        //do you have the role
+        if (req.session.user.role_name !== role) {
+            req.flash('error', 'you cannot access this page, you do not have permision');
+            return res.redirect('/');
+        }
+        
+        //if so go on
+        next();
+    }
+};
+
+
 export { showUserRegistrationForm, 
     processUserRegistrationForm, 
     showLoginForm, 
     processLoginForm, 
     processLogout,
     requireLogin,
-showDashboard };
+showDashboard,
+requireRole };
