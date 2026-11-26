@@ -80,7 +80,7 @@ const categoryValidation = [
 ];
 
 const showEditCategoryForm = async (req, res) => {
-    const title = "new category";
+    const title = "edit category";
     const categoryId = req.params.id;
     const categorydetails = await getCategoryDetails(categoryId);
 

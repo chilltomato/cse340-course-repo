@@ -1,5 +1,7 @@
 <%- include('partials/header') %>
 <main>
+  <h1><%= title %></h1>
+
  <form action="/edit-category/<%= categorydetails.category_id %>" method="POST">
     <div class="form-group">
       <label for="name">Category Name</label>
