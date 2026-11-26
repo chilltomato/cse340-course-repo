@@ -82,7 +82,9 @@ const projectValidation = [
         .notEmpty().withMessage('Date is required')
         .isISO8601().withMessage('Date must be a valid date format'),
 body('organizationIds')
-    .isArray({ min: 1 }).withMessage('Please select at least one organization'),
+    .toArray()
+    .isArray({ min: 1 })
+    .withMessage('Please select at least one organization'),
 
 body('organizationIds.*')
     .isInt().withMessage('Organization IDs must be valid integers')

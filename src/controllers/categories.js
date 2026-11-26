@@ -100,7 +100,7 @@ const processEditCategoryForm = async (req, res) => {
         });
 
         // Redirect back to the new project form
-        return res.redirect(`/edit-category${categoryId}`);
+        return res.redirect(`/edit-category/${categoryId}`);
     }
     const {name} = req.body;
     const categoryID = await updateCategory(categoryId, name);
