@@ -35,7 +35,8 @@ import { showUserRegistrationForm,
     processLogout,
     requireLogin,
 showDashboard,
-requireRole } from './controllers/users.js'
+requireRole,
+showUsersPage } from './controllers/users.js'
 import { testErrorPage } from './controllers/errors.js';
 
 
@@ -51,6 +52,7 @@ router.get('/category/:id', showCategoriesdetailPage)
 router.get('/logout', processLogout);
 
 router.get('/dashboard', requireLogin, showDashboard);
+router.get('/users', requireRole('admin'), showUsersPage);
 
 router.get('/new-organization', requireRole('admin'), showNewOrganizationForm)
 router.get('/edit-organization/:id', requireRole('admin'), showEditOrganizationForm);

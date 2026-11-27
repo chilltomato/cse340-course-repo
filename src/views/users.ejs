@@ -1,0 +1,16 @@
+<%- include('partials/header') %>
+<main>
+        <h1><%= title %></h1>
+            <ul>
+            <% users.forEach(user => { %>
+            <li>
+            <h2><%= user.name %></h2>
+            <div class="leftrightgrid">
+            <p>role: <%= user.role_name %></p>
+            <p>email: <%= user.email %></p>
+            </div>
+            </li>
+            <% }); %>
+        </ul>        
+
+</main>

@@ -9,7 +9,7 @@
                     <h3> <%= project.title %></h3>
                     done by <%= project.organizations.map(org => org.name).join(', ') %>.
                     <strong> <%= project.description %> </strong>
-                    <div class="dateandplace">
+                    <div class="leftrightgrid">
                         <p><%= project.place %></p>
                         <p><%= new Date(project.thedate).toISOString().split('T')[0]  %></p>
                     </div>
